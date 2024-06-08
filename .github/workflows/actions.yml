@@ -2,8 +2,9 @@ name: run main.py
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "15 14 * * *"
+  # uncomment scheduled for scheduled runs
+  # schedule:
+  #   - cron: "15 14 * * *"
 
 jobs:
   build:
