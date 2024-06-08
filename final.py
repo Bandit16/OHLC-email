@@ -38,27 +38,22 @@ def extracter (rows):
             data["change"].append(change.text)
 
 def write():
-    af = pd.read_excel('data.xlsx', sheet_name='Sheet2')
-    _date = af['date'].tail(1).values[0]
-    if date_ == _date :
-       print('already updated')
-    else:
-        df = pd.DataFrame.from_dict(self_data)
-        cf = pd.DataFrame.from_dict(current_value)
+    df = pd.DataFrame.from_dict(self_data)
+    cf = pd.DataFrame.from_dict(current_value)
 
-        workbook = openpyxl.load_workbook('data.xlsx')
+    workbook = openpyxl.load_workbook('data.xlsx')
 
-        sheet1 = workbook['Sheet1']
-        sheet2 = workbook['Sheet2']
-        sheet1.delete_rows(2, sheet1.max_row)
+    sheet1 = workbook['Sheet1']
+    sheet2 = workbook['Sheet2']
+    sheet1.delete_rows(2, sheet1.max_row)
 
-        for row in df.itertuples(index=False, name=None):
-            sheet1.append(row)
-        for row in cf.itertuples(index=False, name=None):
-            sheet2.append(row)
+    for row in df.itertuples(index=False, name=None):
+        sheet1.append(row)
+    for row in cf.itertuples(index=False, name=None):
+        sheet2.append(row)
 
-        workbook.save('data.xlsx')
-
+    workbook.save('data.xlsx')
+    workbook.close()
 
 def file_read():
     _df = pd.read_csv('data.csv')
@@ -77,51 +72,6 @@ def file_read():
     current_value['high'].append(data['Value as of LTP'][i+1])
     current_value['low'].append(data['Value as of LTP'][i+1])
     current_value['close'].append(data['Value as of LTP'][i+1])
-    write()
-
-def regular_update():
-    with pd.ExcelFile('data.xlsx') as xlsx:
-        existing_data = pd.read_excel(xlsx, sheet_name='Sheet1',thousands=',')
-        e_data = existing_data.to_dict(orient='list')
-
-    r = len(e_data['title'])
-    s = len(data['title'])
-    for j in  range(0 , s):
-        for i  in range( 0,r):
-            if e_data['title'][i] == data['title'][j]:
-                self_data['title'].append(data['title'][j])
-                self_data['open'].append(data['open'][j])
-                self_data['high'].append(data['high'][j])
-                self_data['low'].append(data['low'][j])
-                self_data['close'].append(data['close'][j])
-                self_data['quantity'].append(e_data['quantity'][i])
-   
-    open_total = 0
-    high_total = 0
-    low_total = 0
-    close_total = 0
-    write()
-    def adder(total):
-        return round(total, 2)
-    with pd.ExcelFile('data.xlsx') as xlsx:
-        existing_data = pd.read_excel(xlsx, sheet_name='Sheet1',thousands=',')
-        e_data = existing_data.to_dict(orient='list')
-    for index ,row in existing_data.iterrows():
-        open_price = row['open'] 
-        high_price = row['high'] 
-        low_price = row['low'] 
-        close_price = row['close'] 
-        quantity = row['quantity']
-
-        open_total += (open_price) * quantity
-        high_total += (high_price) * quantity
-        low_total += (low_price) * quantity
-        close_total += (close_price) * quantity
-    current_value['date'].append(date_)
-    current_value['open'].append(adder(open_total))
-    current_value['high'].append(adder(high_total))
-    current_value['low'].append(adder(low_total))
-    current_value['close'].append(adder(close_total))
     write()
 
 def portfolio():
@@ -151,12 +101,12 @@ nochange_row=soup.find_all('tr',class_="nochange-row")
 extracter(incr_row)
 extracter(dcr_row)
 extracter(nochange_row) 
-entry = input("Enter what you've got yourself? (y/n) or load using a file?(l): ")
+entry = input("Enter what stocks you've got yourself? (y/n) or load using a file?(l): ")
 if entry.lower() == 'y':
     portfolio()
 if entry.lower() == 'l':
     file_read()
 else:
-    regular_update()
+    pass
 
 

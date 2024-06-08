@@ -43,7 +43,9 @@ def extracter (rows):
 def write():
     af = pd.read_excel('data.xlsx', sheet_name='Sheet2')
     _date = af['date'].tail(1).values[0]
-    if date_ == _date :
+    _close = af['close'].tail(1).values[0]
+    close_ = current_value['close']
+    if date_ == _date and _close in close_:
        print('already updated')
     else:
         df = pd.DataFrame.from_dict(self_data)
@@ -61,6 +63,7 @@ def write():
             sheet2.append(row)
 
         workbook.save('data.xlsx')
+        workbook.close()
 
 
 def file_read():
@@ -138,6 +141,6 @@ extracter(nochange_row)
 # func call
 regular_update()
 image.img()
-email_.send_email()
+# email_.send_email()
 
 

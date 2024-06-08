@@ -41,3 +41,4 @@ def img():
             savefig='stock_chart.png',
             
             )
+    
