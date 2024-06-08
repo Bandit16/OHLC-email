@@ -141,6 +141,6 @@ extracter(nochange_row)
 # func call
 regular_update()
 image.img()
-# email_.send_email()
+email_.send_email()
 
 
