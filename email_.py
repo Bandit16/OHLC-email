@@ -54,5 +54,4 @@ def send_email():
         print(f"Email sent successfully to {to_email}.")
     except Exception as e:
         print(f"Failed to send email. Error: {e}")
-send_email()
 
