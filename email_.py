@@ -8,10 +8,10 @@ from email.mime.base import MIMEBase
 
 def send_email():
     # Email account credentials
-    from_email = "tsorolpa4580@gmail.com"
-    password = "mwpx dqpc xfyi yqux"  
+    from_email = "youremail@gmail.com"
+    password = "your app password here"  
     # make changes here
-    to_email = "dipeshacharya87@gmail.com"
+    to_email = "receivermail@gmail.com"
     # Replace with your actual credentials (avoid putting them in code)
 
     msg = MIMEMultipart()
