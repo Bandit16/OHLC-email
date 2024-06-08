@@ -2,7 +2,6 @@ import requests
 import pandas as pd
 from datetime import date
 from bs4 import BeautifulSoup
-import xlsxwriter
 import openpyxl
 import image
 import email_

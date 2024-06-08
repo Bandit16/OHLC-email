@@ -12,7 +12,7 @@ def send_email():
     password = "mwpx dqpc xfyi yqux"  
     # make changes here
     to_email = "dipeshacharya87@gmail.com"
-# Replace with your actual credentials (avoid putting them in code)
+    # Replace with your actual credentials (avoid putting them in code)
 
     msg = MIMEMultipart()
     msg['From'] = from_email
@@ -33,10 +33,6 @@ def send_email():
     attachment_part.add_header("Content-Disposition", f"attachment; filename={'stock_chart.png'.split('/')[-1]}")
 
     msg.attach(attachment_part)
-
-
-
-  
 
     try:
         # Create server object with SSL option

@@ -1,21 +1,25 @@
 name: run main.py
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: "0 20 * * *"
+    - cron: "15 14 * * *"
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: checkout repo content
-        uses: actions/checkout@v2 # checkout the repository content to github runner
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: setup python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.9"
-          cache: "pip" # install the python version needed
+          python-version: "3.9" # install the python version needed
 
       - name: install python packages
         run: |
@@ -34,7 +38,7 @@ jobs:
           git diff-index --quiet HEAD || (git commit -a -m "updated logs" --allow-empty)
 
       - name: push changes
-        uses: ad-m/github-push-action@v0.6.0
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main

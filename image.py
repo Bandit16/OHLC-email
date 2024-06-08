@@ -3,7 +3,6 @@ import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
 import mplfinance as mpf
-
 import ta
 
 # Load the sample stock data

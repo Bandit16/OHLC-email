@@ -2,7 +2,6 @@ import requests
 import pandas as pd
 from datetime import date
 from bs4 import BeautifulSoup
-import xlsxwriter
 import openpyxl
 http_proxy  = "http://10.10.1.10:3128"
 https_proxy = "https://10.10.1.11:1080"
@@ -152,7 +151,7 @@ nochange_row=soup.find_all('tr',class_="nochange-row")
 extracter(incr_row)
 extracter(dcr_row)
 extracter(nochange_row) 
-entry = input("Enter what you've got? (y/n) or load(l): ")
+entry = input("Enter what you've got yourself? (y/n) or load using a file?(l): ")
 if entry.lower() == 'y':
     portfolio()
 if entry.lower() == 'l':
