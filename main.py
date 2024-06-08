@@ -43,7 +43,7 @@ def extracter (rows):
 def write():
     af = pd.read_excel('data.xlsx', sheet_name='Sheet2')
     _date = af['date'].tail(1).values[0]
-    if date_ != _date :
+    if date_ == _date :
        print('already updated')
     else:
         df = pd.DataFrame.from_dict(self_data)
