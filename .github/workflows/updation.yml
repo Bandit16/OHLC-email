@@ -3,8 +3,8 @@ name: Run Update Script
 on:
   workflow_dispatch:
   # schedule:
-  #   - cron: "15 19 * * 0"
-  #   - cron: "15 19 * * 2"
+  # - cron: "15 19 * * 0"
+  # - cron: "15 19 * * 3"
 
 jobs:
   build:
@@ -23,13 +23,10 @@ jobs:
           python-version: "3.9"
 
       - name: Installed package list
-        run: apt list --installed
-      - name: Remove Chrome
-        run: sudo apt purge google-chrome-stable
-      - name: Remove default Chromium
-        run: sudo apt purge chromium-browser
-      - name: Install a new Chromium
-        run: sudo apt install -y chromium-browser
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 120
+          install-chromedriver: true
 
       - name: Install dependencies
         run: |
