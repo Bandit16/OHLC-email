@@ -2,9 +2,9 @@ name: Run Update Script
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "15 19 * * 0"
-    - cron: "15 19 * * 2"
+  # schedule:
+  #   - cron: "15 19 * * 0"
+  #   - cron: "15 19 * * 2"
 
 jobs:
   build:
