@@ -12,6 +12,8 @@ ftp_proxy   = "ftp://10.10.1.10:3128"
 data ={'title': [],'change': [],'open':[],'high':[],'low':[], 'close': []}
 current_value = {'date':[],'open':[],'high':[],'low':[], 'close': []}
 self_data = {'title':[],'open':[],'high':[],'low':[], 'close': [],'quantity':[]}
+cash_value = {'cash':[0]}
+
 date_= date.today().strftime("%Y-%m-%d")
 proxies = { 
               "http"  : http_proxy, 
@@ -39,6 +41,14 @@ def extracter (rows):
             data["low"].append(low.text)
             data["close"].append(price)
             data["change"].append(change.text)
+
+def file_handler(sheet):
+    with pd.ExcelFile('data.xlsx') as xlsx:
+        existing_data = pd.read_excel(xlsx, sheet_name=sheet,thousands=',')
+        e_data = existing_data.to_dict(orient='list')
+    return e_data
+
+cash_value['cash'][0] = file_handler('Sheet3')['cash'][0]
 
 def write():
     af = pd.read_excel('data.xlsx', sheet_name='Sheet2')
@@ -123,14 +133,18 @@ def regular_update():
         high_total += (high_price) * quantity
         low_total += (low_price) * quantity
         close_total += (close_price) * quantity
+
+    close_total = adder(close_total) + cash_value['cash'][0]
+    open_total = adder(open_total) + cash_value['cash'][0]
+    high_total = adder(high_total) + cash_value['cash'][0]
+    low_total = adder(low_total) + cash_value['cash'][0]
+
     current_value['date'].append(date_)
-    current_value['open'].append(adder(open_total))
-    current_value['high'].append(adder(high_total))
-    current_value['low'].append(adder(low_total))
-    current_value['close'].append(adder(close_total))
+    current_value['open'].append(open_total)
+    current_value['high'].append(high_total)
+    current_value['low'].append(low_total)
+    current_value['close'].append(close_total)
     write()
-
-
 
 incr_row=soup.find_all('tr',class_="increase-row")
 dcr_row=soup.find_all('tr',class_="decrease-row")

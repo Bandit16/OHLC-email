@@ -11,6 +11,7 @@ import openpyxl
 import pandas as pd
 from time import sleep
 import os
+import main
 # secret variables
 username = os.getenv('USERNAME')
 password = os.getenv('PASSWORD')
@@ -95,3 +96,58 @@ for row in rows[:-1]:
 write()
 driver.quit()
 
+main.regular_update()
+
+cash_value = {'cash':[0]}
+def file_handler(sheet):
+    with pd.ExcelFile('data.xlsx') as xlsx:
+        existing_data = pd.read_excel(xlsx, sheet_name=sheet,thousands=',')
+        e_data = existing_data.to_dict(orient='list')
+    return e_data
+
+cash_value['cash'][0] = file_handler('Sheet3')['cash'][0]
+
+def write_cash(cash_value):
+    cash_value = cash_value
+
+    df = pd.DataFrame.from_dict(cash_value)
+    workbook = openpyxl.load_workbook('data.xlsx')
+
+    sheet3 = workbook['Sheet3']
+    
+    sheet3.delete_rows(2, sheet3.max_row)
+
+    for row in df.itertuples(index=False, name=None):
+        sheet3.append(row)
+
+    workbook.save('data.xlsx')
+    workbook.close()
+
+def delete_last_row(sheet_name):
+    workbook = openpyxl.load_workbook('data.xlsx')
+    sheet = workbook[sheet_name]
+    sheet.delete_rows(sheet.max_row)
+    workbook.save('data.xlsx')
+    workbook.close()
+
+e_data = file_handler('Sheet2')
+r = len(e_data['date'])
+lowValue = e_data['close'][r-2]*0.94
+highValue = e_data['close'][r-2]*1.06
+if e_data['close'][r-1] < lowValue:
+    # sell observed
+    print('sell observed')
+    cash = e_data['close'][r-2] - e_data['close'][r-1]
+    cash_value['cash'][0]+=cash
+    write_cash(cash_value)
+    delete_last_row('Sheet2')
+elif e_data['close'][r-1] > highValue:
+    # buy observed
+    print('buy observed')
+    cash = e_data['close'][r-1] - e_data['close'][r-2]
+    cash_value['cash'][0]-=cash
+    if cash_value['cash'][0] < 0:
+        print('New money flow')
+        cash_value['cash'][0] = 0
+    write_cash(cash_value)
+    delete_last_row('Sheet2')
