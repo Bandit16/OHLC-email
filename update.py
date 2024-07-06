@@ -11,7 +11,7 @@ import openpyxl
 import pandas as pd
 from time import sleep
 import os
-import main
+
 # secret variables
 username = os.getenv('USERNAME')
 password = os.getenv('PASSWORD')
@@ -95,9 +95,7 @@ for row in rows[:-1]:
                 self__data['close'].append(cell.text)
 write()
 driver.quit()
-
-main.regular_update()
-
+import main
 cash_value = {'cash':[0]}
 def file_handler(sheet):
     with pd.ExcelFile('data.xlsx') as xlsx:

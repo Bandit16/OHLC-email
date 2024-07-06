@@ -154,7 +154,9 @@ extracter(dcr_row)
 extracter(nochange_row) 
 # func call
 regular_update()
-image.img()
-email_.send_email()
-
+def main():
+    image.img()
+    email_.send_email()
+if __name__ == '__main__':  
+    main()
 
